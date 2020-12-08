@@ -21,7 +21,11 @@ int NbrLignes (char* initialcode){
      return compteur;
   }
 
+<<<<<<< HEAD
   int ReadFile(char* initialcode, Sequences* seq[], Instructions *Intru[]){
+=======
+  int ReadFile(char* initialcode, Sequences* seq, Instructions *Intru[]){
+>>>>>>> a3dccd5eb1698bc9bf2e1dd77b71064cd2e19b71
     FILE *fichier = fopen(initialcode,"r");
     if (initialcode == NULL) {
        printf("%s intouvable", initialcode);
@@ -29,6 +33,7 @@ int NbrLignes (char* initialcode){
      }
      int n= NbrLignes(initialcode);
      char c;
+<<<<<<< HEAD
      int j;
      for (int i = 0; i<n ;i++){
        //lire ligne par ligne
@@ -40,6 +45,14 @@ int NbrLignes (char* initialcode){
           while(c = getc(fichier) == " ")
           seq[i]->rupture[i][j] = "0";
           j++;
+=======
+     for (int i = 0; i<n ;i++){
+       //lire ligne par ligne
+       for (c = getc(fichier); c != '\n'; c = getc(fichier)){
+         //Pas d'étiquette
+        if (c==' '){
+          seq->rupture[i]=0;
+>>>>>>> a3dccd5eb1698bc9bf2e1dd77b71064cd2e19b71
         }
         else{
           j=0;
