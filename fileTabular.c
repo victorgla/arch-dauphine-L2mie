@@ -3,11 +3,7 @@
 #include<err.h>
 #include<string.h>
 #include"fileTabular.h"
-#include <errno.h>
-#include <limits.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 
 void InitInstructions(Instructions *ins)
 {
