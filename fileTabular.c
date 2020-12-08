@@ -3,7 +3,7 @@
 #include<err.h>
 #include<string.h>
 #include"fileTabular.h"
-
+#define SIZE 10
 
 Instructions* InitInstructions()
 {
@@ -18,20 +18,25 @@ Instructions* InitInstructions()
 TabularInstructions* InitTabularInstructions()
 {
     TabularInstructions* tabins = malloc(sizeof(TabularInstructions));
-    tabins->size = 0;
+    tabins->size = SIZE;
+    for(int i = 0; i < SIZE; i++)
+    {
+        tabins->instruction = malloc(SIZE*sizeof(Instructions));
+        InitInstructions();
+    }
     return tabins;
 }
-
 
 Sequences* InitSequences()
 {
     Sequences* seq = malloc(sizeof(Sequences));
-    seq->size = 0;
-    seq->adress = malloc(sizeof(seq->adress));
-    seq->rupture = malloc(sizeof(seq->rupture));
+    seq->size = SIZE;
+    seq->adress = malloc(SIZE*sizeof(seq->adress));
+    seq->rupture = malloc(SIZE*sizeof(seq->rupture));
+    //on s'embête pas a optimiser la mémoire on utilise la meme taille pour les rupture et le nb d'adresse;
     int i = 0;
     while(seq->rupture[i]!=NULL)
-        seq->rupture[i] = malloc(sizeof(*seq->rupture));
+        seq->rupture[i] = malloc(sizeof(char*));
     return seq;
 }
 

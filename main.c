@@ -7,9 +7,7 @@ int main ( int argc, char *argv[] )
 
 {
     TabularInstructions *tabins = InitTabularInstructions();
-    tabins->instruction[0] = *InitInstructions();
-    tabins->size++;
-    printf("%d",tabins->size); 
+    printf("%d %li",tabins->size,tabins->instruction[0].adress); 
     return 0;
 }		
 
