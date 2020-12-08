@@ -4,6 +4,7 @@
 #include<string.h>
 #include"fileTabular.h"
 #define SIZE 10
+#define CMAX 255
 
 Instructions* InitInstructions()
 {
@@ -19,11 +20,9 @@ TabularInstructions* InitTabularInstructions()
 {
     TabularInstructions* tabins = malloc(sizeof(TabularInstructions));
     tabins->size = SIZE;
+    tabins->instruction = malloc(SIZE*sizeof(Instructions));
     for(int i = 0; i < SIZE; i++)
-    {
-        tabins->instruction = malloc(SIZE*sizeof(Instructions));
-        InitInstructions();
-    }
+        tabins->instruction = InitInstructions();
     return tabins;
 }
 
@@ -32,11 +31,10 @@ Sequences* InitSequences()
     Sequences* seq = malloc(sizeof(Sequences));
     seq->size = SIZE;
     seq->adress = malloc(SIZE*sizeof(seq->adress));
-    seq->rupture = malloc(SIZE*sizeof(seq->rupture));
+    seq->rupture = malloc(SIZE*sizeof(char*));
     //on s'embête pas a optimiser la mémoire on utilise la meme taille pour les rupture et le nb d'adresse;
-    int i = 0;
-    while(seq->rupture[i]!=NULL)
-        seq->rupture[i] = malloc(sizeof(char*));
+    for(int i = 0; i < SIZE; i++)
+        seq->rupture[i] = malloc(CMAX*sizeof(char));
     return seq;
 }
 
@@ -71,33 +69,41 @@ int findSequenceAdress(Sequences *sequence,char *arguments)
    return -1;
 }
 
+int argExtra(TabularInstructions *tabins,char **arguments, char* leftover, int i)
+{
+
+              tabins->instruction[i].adress = strtol(arguments[i],&leftover,10);
+              if(!WhiteSpace(leftover))
+              {
+                   err(1,"Wrong Adress line %d",i);
+                   return 0;
+              }
+       return 1;
+}
 
 
 void AdressToHexa(TabularInstructions *tabins,char **arguments, int *occupation, Sequences *sequence)
 {
   int seq;
-  char* leftover;
+  char leftover[255];
   for(int i = 0; i < tabins->size; i++)
   {
-      if(tabins->instruction[i].nbArguments)
-          continue;//source du bug
       switch ( tabins->instruction[i].type ) 
       {
           case 1:
-              tabins->instruction[i].adress = strtol(arguments[i],&leftover,10);
-              if(!WhiteSpace(leftover))
-                   err(1,"Wrong Adress line %d",i);
+              argExtra(tabins,arguments,leftover,i);
               break;
-          case -1:
-              seq = firstAdress(occupation);
+          case 0:
+              argExtra(tabins,arguments,leftover,i);
+              seq =firstAdress(occupation);
               if(seq==-1)
               {
                   err(1,"No free Adress : line %d",i);
                   return;
               }
-              tabins->instruction[i].adress = seq;
+              occupation[seq] = 1;
               break;
-          case 0:
+          case -1:
               seq = findSequenceAdress(sequence,arguments[i]);
               if(seq == -1)
               {
@@ -110,7 +116,6 @@ void AdressToHexa(TabularInstructions *tabins,char **arguments, int *occupation,
               printf("MERDE");
               break;
       }
-    free(leftover);             
    }
 }
 

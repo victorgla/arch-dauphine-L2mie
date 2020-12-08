@@ -3,73 +3,90 @@
 #include"fileTabular.h"
 #include<string.h>
 #include<err.h>
+#include<math.h>
 
-
-#define SWITCH(S) char *T = S; \
-                            if(0)
-#define CASE(S) }else if(!strcmp(T,S)) {switch(1) { case 1
+#define SWITCH(S) char *T = S; if(0)
+#define CASE(S) }else if(strcmp(T,S) == 0){switch(1) { case 1
 #define BREAK }
-#define DEFAULT }  else{ switch(1) { case(1) 
+#define DEFAULT }  else{switch(1) {case(1) 
  
+char* addZeros(int addr)
+{
+    int dig = 0;
+    if(addr)
+        dig = log(addr)/log(16);
+    dig = 3 - dig;
+    char* zeroAdd = malloc(dig*sizeof(char));
+    for(int i = 0; i < dig;i++)
+        zeroAdd[i] = '0';
+    return zeroAdd;
+}
+
+
 
 int writeFile(char *file, TabularInstructions *tabins)
 {
-    long int addr = -1; 
+    unsigned int addr = -1; 
     FILE *fichier = fopen(file,"w");
     if(fichier!=NULL)
     {
         for(int i = 0; i < tabins->size; i++)
         {
             addr = tabins->instruction[i].adress;
+            char* zAdd = addZeros(addr);
             SWITCH(tabins->instruction[i].keyWord)
             {
                 CASE("pop"):
-                    fprintf(fichier,"01 , %li \n",addr);
+                    fprintf(fichier,"00 %s%x \n",zAdd,addr);
+                    BREAK;
+                CASE("push"):
+                    fprintf(fichier,"01 %s%x \n",zAdd,addr); 
                     BREAK;
                 CASE("iPop"):
-                    fprintf(fichier,"02, %li \n",addr);
+                    fprintf(fichier,"02 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("iPush"):
-                    fprintf(fichier,"03, %li \n",addr);
+                    fprintf(fichier,"03 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("push#"):
-                    fprintf(fichier,"04, %li \n",addr);
+                    fprintf(fichier,"04 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("call"):
-                    fprintf(fichier,"05, %li \n",addr);
+                    fprintf(fichier,"05 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("ret"):
-                    fprintf(fichier,"06, %li \n",addr);
+                    fprintf(fichier,"06 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("jmp"):
-                    fprintf(fichier,"07, %li \n",addr);
+                    fprintf(fichier,"07 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("jpc"):
-                    fprintf(fichier,"08, %li \n",addr);
+                    fprintf(fichier,"08 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("write"):
-                    fprintf(fichier,"09, %li \n",addr);
+                    fprintf(fichier,"09 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("read"):
-                    fprintf(fichier,"10, %li \n",addr);
+                    fprintf(fichier,"10 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("rnd"):
-                    fprintf(fichier,"11, %li \n",addr);
+                    fprintf(fichier,"11 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("dup"):
-                    fprintf(fichier,"12, %li \n",addr);
+                    fprintf(fichier,"12 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("op"):
-                    fprintf(fichier,"13, %li \n",addr);
+                    fprintf(fichier,"13 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("halt"):
-                    fprintf(fichier,"99, %li \n",addr);
+                    fprintf(fichier,"99 %s%x \n",zAdd,addr);
                     BREAK;
                 DEFAULT:
-                    err(1,"Erreur dans la detection du mot clé %s",tabins->instruction[i].keyWord);
+                    errx(1,"Erreur dans la detection du mot clé %s \n",tabins->instruction[i].keyWord);
                     BREAK;
             }
         }
+        fclose(fichier);
     }
     return 1;
 }

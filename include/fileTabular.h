@@ -6,7 +6,7 @@
 typedef struct Instructions 
 {
     char *keyWord;
-    int type; //-1 pour une rupture de séquence, 0 pour une valeure, 1 pour une adresse;
+    int type; //-1 pour une rupture de séquence, 0 pour une valeure, 1 pour une adresse
     int nbArguments; 
     long int adress;
 }Instructions;
@@ -25,7 +25,6 @@ typedef struct TabularInstructions
     int size;
 }TabularInstructions;
     /* ----------  end of struct TabularInstructions  ---------- */
-
 
 
 /* 
