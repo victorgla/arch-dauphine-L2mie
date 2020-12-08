@@ -30,11 +30,19 @@ typedef struct TabularInstructions
 
 /* 
  * ===  FUNCTION  ======================================================================
+ *         Name:  InitSequences
+ *  Description:  Initialise une structure de sequence 
+ * =====================================================================================
+ */
+Sequences* InitSequences();
+
+/* 
+ * ===  FUNCTION  ======================================================================
  *         Name:  InitTabularInstructions
  *  Description: Initialise la structure TS et alloue l'espace mémoire suffisant 
  * =====================================================================================
  */
-void InitTabularInstructions(struct TabularInstructions* tabIn);
+TabularInstructions*  InitTabularInstructions();
 
 
 /* 
@@ -43,7 +51,7 @@ void InitTabularInstructions(struct TabularInstructions* tabIn);
  *  Description: Initialise la structure I  
  * =====================================================================================
  */
-void InitInstructions(struct Instructions* ins);
+Instructions *InitInstructions();
 
 
 /* 
@@ -93,6 +101,16 @@ void FreeTabularIns(struct TabularInstructions* tabins);
  * =====================================================================================
  */
 void FreeInstrcution(struct Instructions* ins);
+
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  FreeSequences
+ *  Description:  Libère l'espace occupé par les éléments de sequence 
+ * =====================================================================================
+ */
+void FreeSequences(struct Sequences *seq);
 
 #endif
 

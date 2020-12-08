@@ -5,18 +5,34 @@
 #include"fileTabular.h"
 
 
-void InitInstructions(Instructions *ins)
+Instructions* InitInstructions()
 {
-    ins = malloc(sizeof(Instructions)); 
+    Instructions *ins = malloc(sizeof(Instructions)); 
     ins->type = 0;
+    ins->keyWord = malloc(sizeof(char*));
+    ins->adress = 0;
     ins->nbArguments = 0;
+    return ins;
 }
 
-void InitTabularInstructions(TabularInstructions* tabins)
+TabularInstructions* InitTabularInstructions()
 {
-    tabins = malloc(sizeof(TabularInstructions));
+    TabularInstructions* tabins = malloc(sizeof(TabularInstructions));
     tabins->size = 0;
-    InitInstructions(tabins->instruction);
+    return tabins;
+}
+
+
+Sequences* InitSequences()
+{
+    Sequences* seq = malloc(sizeof(Sequences));
+    seq->size = 0;
+    seq->adress = malloc(sizeof(seq->adress));
+    seq->rupture = malloc(sizeof(seq->rupture));
+    int i = 0;
+    while(seq->rupture[i]!=NULL)
+        seq->rupture[i] = malloc(sizeof(*seq->rupture));
+    return seq;
 }
 
 int WhiteSpace(char* str)
@@ -91,4 +107,26 @@ void AdressToHexa(TabularInstructions *tabins,char **arguments, int *occupation,
       }
     free(leftover);             
    }
+}
+
+void FreeInstruction(Instructions *ins)
+{
+    free(ins->keyWord);
+    free(ins);
+}
+
+void FreeTabularIns(TabularInstructions *tabins)
+{
+    for(int i = 0; i < tabins->size; i++)
+        FreeInstruction(tabins[i].instruction);
+    free(tabins);
+}
+
+void FreeSequences(Sequences *seq)
+{
+    free(seq->adress);
+    for(int i = 0; i < seq->size;i++)
+        free(seq->rupture[i]);
+    free(seq->rupture);
+    free(seq);
 }
