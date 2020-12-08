@@ -1,17 +1,17 @@
-CXX = gcc
+CC = gcc
 DEBUG=yes
 ifeq ($(DEBUG),yes)
-	CXXFLAGS = -Wall -g 
+	CCFLAGS = -Wall -g 
 else
-	CXXFLAGS = -Wall 
+	CCFLAGS = -Wall 
 endif
-LDFLAGS = 
+LDFLAGS =  
 OBJDIR = objet
 DIR = ./  
 SRC = $(foreach dir, $(DIR), $(wildcard $(dir)/*.c))
-OBJ = $(SRC:%.c=%.o)
+//OBJ = $(SRC:%.c=%.o)
 LIB = $(wildcard include/*.h) 
-EXEC = TP7
+EXEC = test
 
 all: $(EXEC)  $(OBJDIR)
 
@@ -19,10 +19,10 @@ $(OBJDIR):
 	mkdir $(OBJDIR)
 
 $(OBJDIR)/%o:%.c
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CC) $(CCFLAGS) -c -o $@ $< -Iinclude  
 
-$(EXEC): $(OBJ)
-	$(CXX) -o $@ $^ $(LDFLAGS) $(CXXFLAGS)
+$(EXEC): $(SRC)
+	$(CC) -o $@ $^ $(LDFLAGS) $(CCFLAGS) -iquote include
 
 
 .PHONY: clean mrproper
