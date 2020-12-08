@@ -24,7 +24,7 @@ int WhiteSpace(char* str)
     int i = 0;
     while(str[i]!='\0')
     {
-        if(str[i]!=' ')
+        if(str[i]!=' ' || str[i]!='\n')
             return 0;
         i++;
     }
@@ -40,6 +40,8 @@ int firstAdress(int *occupation)
     return -1;
 }
 
+
+//Verification que plusieurs etiquettes aient le meme nom ?
 int findSequenceAdress(Sequences *sequence,char *arguments)
 {
    for(int i = 0; i < sequence->size; i++)
@@ -69,7 +71,7 @@ void AdressToHexa(TabularInstructions *tabins,char **arguments, int *occupation,
               seq = firstAdress(occupation);
               if(seq==-1)
               {
-                  err(1,"Pas d'adresse libre");
+                  err(1,"No free Adress : line %d",i);
                   return;
               }
               tabins->instruction[i].adress = seq;
@@ -78,7 +80,7 @@ void AdressToHexa(TabularInstructions *tabins,char **arguments, int *occupation,
               seq = findSequenceAdress(sequence,arguments[i]);
               if(seq == -1)
               {
-                  err(1,"arguments[i] n'est pas valide");
+                  err(1,"arguments[i] does not exist");
                   return;
               }
               tabins->instruction[i].adress = seq - i;

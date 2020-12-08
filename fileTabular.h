@@ -26,16 +26,72 @@ typedef struct TabularInstructions
 }TabularInstructions;
     /* ----------  end of struct TabularInstructions  ---------- */
 
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  InitTabularInstructions
+ *  Description: Initialise la structure TS et alloue l'espace mémoire suffisant 
+ * =====================================================================================
+ */
 void InitTabularInstructions(struct TabularInstructions* tabIn);
 
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  InitInstructions
+ *  Description: Initialise la structure I  
+ * =====================================================================================
+ */
 void InitInstructions(struct Instructions* ins);
 
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  firstAdress
+ *  Description: A partir du tableau d'occupation de toutes les adress
+ *  Return : -1 si il n'y a aucune adress libre sinon l'indice de celle-ci
+ =====================================================================================
+ */
+int firstAdress(int *occupation);
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  InitInstructions
+ *  Description: Reccupère les adresses contenues dans séquence et les transfert une
+ *  fois adapté à l'ecriture binaire dans la structure TI 
+ * =====================================================================================
+ */
 void AdressToHexa(struct TabularInstructions *tabins,char **arguments, int *occupation, struct Sequences *sequence);
 
-int LocateFreeAdress(int *Adress);
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  findSequenceAdress
+ *  Description: Detecte si l'etiquette existe dans le code 
+ *  Return: L'adresse de la première étiquette correspondante 
+ * =====================================================================================
+ */
+int findSequenceAdress(Sequences *sequence, char *arguments);
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  FreeTabularIns
+ *  Description: Libère l'espace utilisé par la structure TI 
+ * =====================================================================================
+ */
 void FreeTabularIns(struct TabularInstructions* tabins);
 
+
+
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  FreeInstruction
+ *  Description: Libère l'espace utilisé par la structure I 
+ * =====================================================================================
+ */
 void FreeInstrcution(struct Instructions* ins);
 
 #endif
