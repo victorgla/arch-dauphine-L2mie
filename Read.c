@@ -66,7 +66,7 @@ int NbrLignes (char* initialcode){
           }
         }
         // dernier caractère récupéré est espace donc pas d'arguments (énoncé)
-        if (c == ' ')
+        /**if (c == ' ')
           Intru[i]->nbArguments=0;
         else{
           while((c=getc(fichier)) != '\n'){
@@ -74,13 +74,14 @@ int NbrLignes (char* initialcode){
               Intru[i]->nbArguments=2; // osef si c'est plus que 2 parce que ça va renvoyer une erreur
             else
               Intru[i]->nbArguments=1;
-            }
+            }**/
 
           }
         
 
 
-     }
+     
   }
-
+     return 0;
+  }
 

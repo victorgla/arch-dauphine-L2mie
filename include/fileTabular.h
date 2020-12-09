@@ -6,9 +6,8 @@
 typedef struct Instructions 
 {
     char *keyWord;
-    int type; //-1 pour une rupture de séquence, 0 pour une valeure, 1 pour une adresse
-    int nbArguments; 
-    long int adress;
+    //int type; //-1 pour une rupture de séquence, 0 pour une valeure, 1 pour une adresse
+    long int arg;
 }Instructions;
     /* ----------  end of struct Instructions  ---------- */
 
@@ -82,6 +81,8 @@ void AdressToHexa(struct TabularInstructions *tabins,char **arguments, int *occu
  */
 int findSequenceAdress(Sequences *sequence, char *arguments);
 
+
+int argExtra(struct TabularInstructions *tabins, char **arg,char* leftover,int i);
 
 /* 
  * ===  FUNCTION  ======================================================================

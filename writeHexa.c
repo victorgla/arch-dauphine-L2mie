@@ -10,36 +10,43 @@
 #define BREAK }
 #define DEFAULT }  else{switch(1) {case(1) 
  
-char* addZeros(int addr)
+void addZeros(char* zeroAdd,int addr)
 {
     int dig = 0;
     if(addr)
         dig = log(addr)/log(16);
     dig = 3 - dig;
-    char* zeroAdd = malloc(dig*sizeof(char));
     for(int i = 0; i < dig;i++)
         zeroAdd[i] = '0';
-    return zeroAdd;
 }
 
 
-
-int writeFile(char *file, TabularInstructions *tabins)
+unsigned int getArg(TabularInstructions *tabins,char** arguments, char* leftover,int i, char* zAdd)
 {
-    unsigned int addr = -1; 
+    argExtra(tabins,arguments,leftover,i);
+    addZeros(zAdd,tabins->instruction[i].arg);
+    printf("%s",zAdd);
+    return (unsigned int)tabins->instruction[i].arg;
+}
+
+int writeFile(char *file, TabularInstructions *tabins,char **arguments)
+{
+    unsigned int addr = -1;
+    char* zAdd = malloc(4*sizeof(char));
+    char* leftover = malloc(255*sizeof(char));
     FILE *fichier = fopen(file,"w");
     if(fichier!=NULL)
     {
         for(int i = 0; i < tabins->size; i++)
         {
-            addr = tabins->instruction[i].adress;
-            char* zAdd = addZeros(addr);
+            addr = tabins->instruction[i].arg;
             SWITCH(tabins->instruction[i].keyWord)
             {
                 CASE("pop"):
                     fprintf(fichier,"00 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("push"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"01 %s%x \n",zAdd,addr); 
                     BREAK;
                 CASE("iPop"):
@@ -49,6 +56,7 @@ int writeFile(char *file, TabularInstructions *tabins)
                     fprintf(fichier,"03 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("push#"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"04 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("call"):
@@ -86,6 +94,8 @@ int writeFile(char *file, TabularInstructions *tabins)
                     BREAK;
             }
         }
+        free(zAdd);
+        free(leftover);
         fclose(fichier);
     }
     return 1;

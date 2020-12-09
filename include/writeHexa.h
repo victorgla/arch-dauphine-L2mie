@@ -9,7 +9,7 @@
  *  Description:  Permet selon un nom de fichier choisi de générer les codes op et addr
  * =====================================================================================
  */
-int writeFile(char *file,TabularInstructions *tabins);
+int writeFile(char *file,TabularInstructions *tabins,char **arg);
 
 
 
