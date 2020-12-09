@@ -29,7 +29,7 @@ unsigned int getArg(TabularInstructions *tabins,char** arguments, char* leftover
     return (unsigned int)tabins->instruction[i].arg;
 }
 
-int writeFile(char *file, TabularInstructions *tabins,char **arguments)
+int writeFile(char *file, TabularInstructions *tabins,char **arguments,Sequences *seq)
 {
     unsigned int addr = -1;
     char* zAdd = malloc(4*sizeof(char));
@@ -43,6 +43,7 @@ int writeFile(char *file, TabularInstructions *tabins,char **arguments)
             SWITCH(tabins->instruction[i].keyWord)
             {
                 CASE("pop"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"00 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("push"):
@@ -50,9 +51,11 @@ int writeFile(char *file, TabularInstructions *tabins,char **arguments)
                     fprintf(fichier,"01 %s%x \n",zAdd,addr); 
                     BREAK;
                 CASE("iPop"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"02 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("iPush"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"03 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("push#"):
@@ -60,12 +63,16 @@ int writeFile(char *file, TabularInstructions *tabins,char **arguments)
                     fprintf(fichier,"04 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("call"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"05 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("ret"):
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"06 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("jmp"):
+                    findSequenceAdress(seq,arguments[i]);
+                    addr = getArg(tabins,arguments,leftover,i,zAdd);
                     fprintf(fichier,"07 %s%x \n",zAdd,addr);
                     BREAK;
                 CASE("jpc"):

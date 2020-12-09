@@ -62,7 +62,7 @@ int findSequenceAdress(Sequences *sequence,char *arguments)
 {
    for(int i = 0; i < sequence->size; i++)
        if(!strcmp(sequence->rupture[i],arguments))
-               return sequence->adress[i];
+               return i - sequence->adress[i];
    return -1;
 }
 
