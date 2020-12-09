@@ -69,7 +69,7 @@ int firstAdress(int *occupation);
  *  fois adapté à l'ecriture binaire dans la structure TI 
  * =====================================================================================
  */
-void AdressToHexa(struct TabularInstructions *tabins,char **arguments, int *occupation, struct Sequences *sequence);
+void AdressToHexa(struct TabularInstructions *tabins, int *occupation, struct Sequences *sequence);
 
 
 /* 
@@ -79,10 +79,10 @@ void AdressToHexa(struct TabularInstructions *tabins,char **arguments, int *occu
  *  Return: L'adresse de la première étiquette correspondante 
  * =====================================================================================
  */
-int findSequenceAdress(Sequences *sequence, char *arguments);
+int findSequenceAdress(Sequences *sequence, TabularInstructions *tabins,int j);
 
 
-int argExtra(struct TabularInstructions *tabins, char **arg,char* leftover,int i);
+int argExtra(struct TabularInstructions *tabins, char* leftover,int i);
 
 /* 
  * ===  FUNCTION  ======================================================================

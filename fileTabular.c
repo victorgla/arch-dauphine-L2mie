@@ -3,13 +3,13 @@
 #include<err.h>
 #include<string.h>
 #include"fileTabular.h"
-#define SIZE 10
+#define SIZE 25
 #define CMAX 255
 
 Instructions* InitInstructions()
 {
     Instructions *ins = malloc(sizeof(Instructions)); 
-    ins->keyWord = malloc(sizeof(char*));
+    ins->keyWord = malloc(CMAX*sizeof(char));
     ins->arg = 0;
     return ins;
 }
@@ -58,18 +58,18 @@ int firstAdress(int *occupation)
 
 
 //Verification que plusieurs etiquettes aient le meme nom ?
-int findSequenceAdress(Sequences *sequence,char *arguments)
+int findSequenceAdress(Sequences *sequence,TabularInstructions* tabins,int j)
 {
    for(int i = 0; i < sequence->size; i++)
-       if(!strcmp(sequence->rupture[i],arguments))
+       if(!strcmp(sequence->rupture[i],tabins->instruction[j].keyWord))
                return i - sequence->adress[i];
    return -1;
 }
 
-int argExtra(TabularInstructions *tabins,char **arguments, char* leftover,int i)
+int argExtra(TabularInstructions *tabins,char* leftover,int i)
 {
 
-              tabins->instruction[i].arg = strtol(arguments[i],&leftover,10);
+              tabins->instruction[i].arg = strtol(tabins->instruction[i].keyWord,&leftover,10);
               if(!WhiteSpace(leftover))
               {
                    err(1,"Wrong Adress line %d",i);

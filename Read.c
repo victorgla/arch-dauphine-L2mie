@@ -21,47 +21,47 @@ int NbrLignes (char* initialcode){
      return compteur;
   }
 
-  int ReadFile(char* initialcode, Sequences* seq[], Instructions *Intru[]){
+  int ReadFile(char* initialcode, Sequences* seq, TabularInstructions *tabins){
     FILE *fichier = fopen(initialcode,"r");
     if (initialcode == NULL) {
        printf("%s intouvable", initialcode);
         return 0;
      }
-     int n= NbrLignes(initialcode);
+     int n = NbrLignes(initialcode);
      char c;
      int j;
-     for (int i = 0; i<n ;i++){
+     for (int i = 0; i < n ;i++){
        //lire ligne par ligne
        while((c = getc(fichier)) != '\n'){
-         *seq[i]->adress = i;
+         seq->adress[i] = i;
          //Pas d'étiquette
         if (c==' '){
           j=0;
           while(((c = getc(fichier)) == ' '))
-          seq[i]->rupture[i][j] = '0';
+          seq->rupture[i][j] = '0';
           j++;
         }
         else{
           j=0;
           while((c = getc(fichier)) != ':'){
-            seq[i]->rupture[i][j] = c;
+            seq->rupture[i][j] = c;
             j++;
           }
         }
         // si le dernier caractère récupéré n'est pas un espace alors c'est la prmière lettre de l'instruction
         if (c != ' '){
-          Intru[i]->keyWord[0] = c;
+          tabins->instruction[i].keyWord[0] = c;
           j=1;
           while ((c=getc(fichier)) !=' '){
-            Intru[i]->keyWord[j] = c;
+            tabins->instruction[i].keyWord[j] = c;
             j++;
             }
           }
-          // le dernier caractère récupéré est ":"
+         // le dernier caractère récupéré est ":"
         else{
           j=0;
-          while ((c=getc(fichier)) !=' '){
-            Intru[i]->keyWord[j] = c;
+          while ((c=getc(fichier)) != ' ' ){
+            tabins->instruction[i].keyWord[j] = c;
             j++;
           }
         }
@@ -77,11 +77,7 @@ int NbrLignes (char* initialcode){
             }**/
 
           }
-        
-
-
+       }
      
-  }
-     return 0;
-  }
-
+ return 0;
+}
