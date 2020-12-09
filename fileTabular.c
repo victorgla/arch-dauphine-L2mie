@@ -10,6 +10,7 @@ Instructions* InitInstructions()
 {
     Instructions *ins = malloc(sizeof(Instructions)); 
     ins->keyWord = malloc(CMAX*sizeof(char));
+    ins->param = malloc(CMAX*sizeof(char));
     ins->arg = 0;
     return ins;
 }
@@ -61,7 +62,7 @@ int firstAdress(int *occupation)
 int findSequenceAdress(Sequences *sequence,TabularInstructions* tabins,int j)
 {
    for(int i = 0; i < sequence->size; i++)
-       if(!strcmp(sequence->rupture[i],tabins->instruction[j].keyWord))
+       if(!strcmp(sequence->rupture[i],tabins->instruction[j].param))
                return i - sequence->adress[i];
    return -1;
 }
@@ -69,7 +70,7 @@ int findSequenceAdress(Sequences *sequence,TabularInstructions* tabins,int j)
 int argExtra(TabularInstructions *tabins,char* leftover,int i)
 {
 
-              tabins->instruction[i].arg = strtol(tabins->instruction[i].keyWord,&leftover,10);
+              tabins->instruction[i].arg = strtol(tabins->instruction[i].param,&leftover,10);
               if(!WhiteSpace(leftover))
               {
                    err(1,"Wrong Adress line %d",i);
@@ -121,6 +122,7 @@ void AdressToHexa(TabularInstructions *tabins,char **arguments, int *occupation,
 void FreeInstruction(Instructions *ins)
 {
     free(ins->keyWord);
+    free(ins->param);
     free(ins);
 }
 

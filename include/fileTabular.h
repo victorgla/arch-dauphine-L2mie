@@ -8,6 +8,7 @@ typedef struct Instructions
     char *keyWord;
     //int type; //-1 pour une rupture de séquence, 0 pour une valeure, 1 pour une adresse
     long int arg;
+    char* param;
 }Instructions;
     /* ----------  end of struct Instructions  ---------- */
 

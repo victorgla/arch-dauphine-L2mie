@@ -10,8 +10,8 @@ int main ( int argc, char *argv[] )
     TabularInstructions *tabins = InitTabularInstructions();
     Sequences *seq = InitSequences();
     tabins->size = 1;
-    //fillTabIns(arguments, tabins, seq);
-    writeFile("test.txt",tabins);
+    fillTabIns(tabins, seq);
+    //writeFile("test.txt",tabins);
     return 0;
 }		
 

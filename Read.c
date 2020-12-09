@@ -20,64 +20,36 @@ int NbrLignes (char* initialcode){
      }
      return compteur;
   }
-
   int ReadFile(char* initialcode, Sequences* seq, TabularInstructions *tabins){
     FILE *fichier = fopen(initialcode,"r");
+    char *test1 = malloc(255*sizeof(char));
+    char *test2 = malloc(255*sizeof(char));
     if (initialcode == NULL) {
        printf("%s intouvable", initialcode);
         return 0;
      }
      int n = NbrLignes(initialcode);
-     char c;
-     int j;
+     if(tabins->size<n)
+         tabins->instruction = realloc(tabins->instruction,n*sizeof(Instructions));
+     char c,etiq = 0;
+     int line_beg,cur_pos;
      for (int i = 0; i < n ;i++){
-       //lire ligne par ligne
+       line_beg = ftell(fichier);
        while((c = getc(fichier)) != '\n'){
-         seq->adress[i] = i;
-         //Pas d'étiquette
-        if (c==' '){
-          j=0;
-          while(((c = getc(fichier)) == ' '))
-          seq->rupture[i][j] = '0';
-          j++;
+        if (c==':')
+          etiq = 1; 
         }
-        else{
-          j=0;
-          while((c = getc(fichier)) != ':'){
-            seq->rupture[i][j] = c;
-            j++;
-          }
-        }
-        // si le dernier caractère récupéré n'est pas un espace alors c'est la prmière lettre de l'instruction
-        if (c != ' '){
-          tabins->instruction[i].keyWord[0] = c;
-          j=1;
-          while ((c=getc(fichier)) !=' '){
-            tabins->instruction[i].keyWord[j] = c;
-            j++;
-            }
-          }
-         // le dernier caractère récupéré est ":"
-        else{
-          j=0;
-          while ((c=getc(fichier)) != ' ' ){
-            tabins->instruction[i].keyWord[j] = c;
-            j++;
-          }
-        }
-        // dernier caractère récupéré est espace donc pas d'arguments (énoncé)
-        /**if (c == ' ')
-          Intru[i]->nbArguments=0;
-        else{
-          while((c=getc(fichier)) != '\n'){
-            if (c== ' ')
-              Intru[i]->nbArguments=2; // osef si c'est plus que 2 parce que ça va renvoyer une erreur
-            else
-              Intru[i]->nbArguments=1;
-            }**/
-
-          }
-       }
-     
+        cur_pos = ftell(fichier);
+          fseek(fichier,line_beg,SEEK_SET);
+          char* line = malloc((cur_pos-line_beg)*sizeof(char));
+          line = fgets(line,cur_pos-line_beg,fichier);
+        if(etiq)
+          sscanf(line,"%s %s ",seq->rupture[seq->size],tabins->instruction[i].keyWord);//,tabins->instruction[i].param);
+        else
+          sscanf(line,"%s ",tabins->instruction[i].keyWord);//,tabins->instruction[i].param);
+        etiq = 0;
+        fseek(fichier,1,SEEK_CUR);
+        printf("%s\n",test1);
+     }
  return 0;
 }

@@ -4,7 +4,7 @@
 #include"writeHexa.h"
 #include"Read.h"
 
-int fillTabIns(char **arguments, TabularInstructions *tabins, Sequences *seq)
+int fillTabIns( TabularInstructions *tabins, Sequences *seq)
 {
     
     tabins->size = NbrLignes("code.txt");
