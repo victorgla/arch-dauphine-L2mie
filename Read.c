@@ -22,15 +22,15 @@ int NbrLignes (char* initialcode){
   }
   int ReadFile(char* initialcode, Sequences* seq, TabularInstructions *tabins){
     FILE *fichier = fopen(initialcode,"r");
-    char *test1 = malloc(255*sizeof(char));
     char *test2 = malloc(255*sizeof(char));
+    char *test1 = malloc(255*sizeof(char));
     if (initialcode == NULL) {
        printf("%s intouvable", initialcode);
         return 0;
      }
      int n = NbrLignes(initialcode);
-     if(tabins->size<n)
-         tabins->instruction = realloc(tabins->instruction,n*sizeof(Instructions));
+     //if(tabins->size<n)
+     //    tabins->instruction = realloc(tabins->instruction,n*sizeof(Instructions));
      char c,etiq = 0;
      int line_beg,cur_pos;
      for (int i = 0; i < n ;i++){
@@ -40,16 +40,16 @@ int NbrLignes (char* initialcode){
           etiq = 1; 
         }
         cur_pos = ftell(fichier);
-          fseek(fichier,line_beg,SEEK_SET);
-          char* line = malloc((cur_pos-line_beg)*sizeof(char));
-          line = fgets(line,cur_pos-line_beg,fichier);
+        fseek(fichier,line_beg,SEEK_SET);
+        char* line = malloc((cur_pos-line_beg)*sizeof(char));
+        line = fgets(line,cur_pos-line_beg,fichier);
         if(etiq)
-          sscanf(line,"%s %s ",seq->rupture[seq->size],tabins->instruction[i].keyWord);//,tabins->instruction[i].param);
+          sscanf(line,"%s %s %s",seq->rupture[seq->size],tabins->instruction[i].keyWord, tabins->instruction[i].param);
         else
-          sscanf(line,"%s ",tabins->instruction[i].keyWord);//,tabins->instruction[i].param);
+            sscanf(line,"%s %s",tabins->instruction[i].keyWord,tabins->instruction[i].param);
         etiq = 0;
+        printf("%s\n",tabins->instruction[i].keyWord);
         fseek(fichier,1,SEEK_CUR);
-        printf("%s\n",test1);
      }
  return 0;
 }

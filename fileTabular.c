@@ -3,14 +3,14 @@
 #include<err.h>
 #include<string.h>
 #include"fileTabular.h"
-#define SIZE 25
+#define SIZE 250
 #define CMAX 255
 
 Instructions* InitInstructions()
 {
     Instructions *ins = malloc(sizeof(Instructions)); 
-    ins->keyWord = malloc(CMAX*sizeof(char));
-    ins->param = malloc(CMAX*sizeof(char));
+    ins->keyWord = malloc(12*sizeof(char));
+    ins->param = malloc(255*sizeof(char));
     ins->arg = 0;
     return ins;
 }
@@ -21,7 +21,7 @@ TabularInstructions* InitTabularInstructions()
     tabins->size = SIZE;
     tabins->instruction = malloc(SIZE*sizeof(Instructions));
     for(int i = 0; i < SIZE; i++)
-        tabins->instruction = InitInstructions();
+        tabins->instruction[i] = *InitInstructions();
     return tabins;
 }
 
