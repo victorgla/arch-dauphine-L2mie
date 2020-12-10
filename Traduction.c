@@ -6,7 +6,6 @@
 
 int fillTabIns( TabularInstructions *tabins, Sequences *seq)
 {
-    
     tabins->size = NbrLignes("code.txt");
     ReadFile("code.txt",seq,tabins); 
     return 0;

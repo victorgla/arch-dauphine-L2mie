@@ -28,10 +28,9 @@ TabularInstructions* InitTabularInstructions()
 Sequences* InitSequences()
 {
     Sequences* seq = malloc(sizeof(Sequences));
-    seq->size = SIZE;
+    seq->size = 0;
     seq->adress = malloc(SIZE*sizeof(seq->adress));
     seq->rupture = malloc(SIZE*sizeof(char*));
-    //on s'embête pas a optimiser la mémoire on utilise la meme taille pour les rupture et le nb d'adresse;
     for(int i = 0; i < SIZE; i++)
         seq->rupture[i] = malloc(CMAX*sizeof(char));
     return seq;
@@ -63,7 +62,7 @@ int findSequenceAdress(Sequences *sequence,TabularInstructions* tabins,int j)
 {
    for(int i = 0; i < sequence->size; i++)
        if(!strcmp(sequence->rupture[i],tabins->instruction[j].param))
-               return i - sequence->adress[i];
+               return sequence->adress[i] - j - 1;
    return -1;
 }
 

@@ -1,7 +1,7 @@
 CC = gcc
 DEBUG=yes
 ifeq ($(DEBUG),yes)
-	CCFLAGS = -Wall -g -lm 
+	CCFLAGS = -Wall -g -lm -Iinclude
 else
 	CCFLAGS = -Wall 
 endif
@@ -19,7 +19,7 @@ $(OBJDIR):
 	mkdir $(OBJDIR)
 
 $(OBJDIR)/%o:%.c
-	$(CC) $(CCFLAGS) -c -o $@ $< -Iinclude  
+	$(CC) $(CCFLAGS) -c -o $@ $< 
 
 $(EXEC): $(SRC)
 	$(CC) -o $@ $^ $(LDFLAGS) $(CCFLAGS) -iquote include
