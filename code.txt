@@ -1,6 +1,5 @@
 push# 10
+push# 15
+op 13
 write 0
-push 1
-push# 2
-write 1
-write 1
+halt 

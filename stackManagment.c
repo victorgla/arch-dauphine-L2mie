@@ -125,8 +125,8 @@ int  opManagment(Stack *stack, TabularInstructions *tabins)
         case 13:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]*stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1]*=stack->pile[stack->SP];
             return 0;
         case 14:
             if(stack->SP<1)
@@ -165,7 +165,6 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                 CASE("push"):
                     if(stack->SP==3999)
                         return -1;
-                    stack->SP++;
                     stack->pile[stack->SP]= stack->pile[tabins->instruction[stack->PC].arg] ;
                     stack->PC++; 
                     BREAK;
@@ -187,6 +186,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     if(stack->SP == 3999)
                         return -1;
                     stack->pile[stack->SP] = tabins->instruction[stack->PC].arg;
+                    stack->SP++;
                     stack->PC++; 
                     BREAK;
                 CASE("call"):
