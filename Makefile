@@ -1,7 +1,7 @@
 CC = gcc
 DEBUG=yes
 ifeq ($(DEBUG),yes)
-	CCFLAGS = -Wall -g -lm -Iinclude
+	CCFLAGS = -g -lm -Iinclude
 else
 	CCFLAGS = -Wall 
 endif

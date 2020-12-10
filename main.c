@@ -2,15 +2,12 @@
 #include<stdlib.h>
 #include"fileTabular.h"
 #include"writeHexa.h"
-#include"Traduction.h"
+#include"mainProcess.h"
 
 int main ( int argc, char *argv[] )
 
 {
-    TabularInstructions *tabins = InitTabularInstructions();
-    Sequences *seq = InitSequences();
-    fillTabIns(tabins, seq);
-    writeFile("test.txt",tabins,seq);
+    Execution();
     return 0;
 }		
 

@@ -7,5 +7,5 @@ ici: read 1000
      op 10
      pop 1000
      write 1000
-     jmp ici
+     jmp fin 
 fin: halt

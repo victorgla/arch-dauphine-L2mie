@@ -62,7 +62,7 @@ int findSequenceAdress(Sequences *sequence,TabularInstructions* tabins,int j)
 {
    for(int i = 0; i < sequence->size; i++)
        if(!strcmp(sequence->rupture[i],tabins->instruction[j].param))
-               return sequence->adress[i] - j - 1;
+               return sequence->adress[i] - j;
    return -1;
 }
 

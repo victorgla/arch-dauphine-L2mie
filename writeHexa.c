@@ -54,7 +54,8 @@ int writeFile(char *file, TabularInstructions *tabins,Sequences *seq)
                     fprintf(fichier,"05 %04x \n",addr & 0xffff);
                     BREAK;
                 CASE("ret"):
-                    addr = getArg(tabins,leftover,i);
+                    if(!strcmp(tabins->instruction[i].param,""))
+                        addr = 0;
                     fprintf(fichier,"06 %04x \n",addr & 0xffff);
                     BREAK;
                 CASE("jmp"):
@@ -87,6 +88,8 @@ int writeFile(char *file, TabularInstructions *tabins,Sequences *seq)
                     fprintf(fichier,"0d %04x \n",addr & 0xffff);
                     BREAK;
                 CASE("halt"):
+                    if(!strcmp(tabins->instruction[i].param,""))
+                        addr = 0;
                     fprintf(fichier,"99 %04x \n",addr & 0xffff);
                     BREAK;
                 DEFAULT:

@@ -7,6 +7,6 @@
 #include"writeHexa.h"
 #include"Read.h"
 
-int fillTabIns( TabularInstructions *tabins, Sequences *seq);
+int Execution();
 
 #endif 
