@@ -4,6 +4,8 @@
 #include<string.h>
 #include<err.h>
 #include<math.h>
+#define RED '\033[31m'
+
 
 #define SWITCH(S) char *T = S; if(0)
 #define CASE(S) }else if(strcmp(T,S) == 0){switch(1) { case 1
@@ -93,7 +95,8 @@ int writeFile(char *file, TabularInstructions *tabins,Sequences *seq)
                     fprintf(fichier,"99 %04x \n",addr & 0xffff);
                     BREAK;
                 DEFAULT:
-                    printf("Erreur dans la detection du mot clé %s \n",tabins->instruction[i].keyWord);
+                    printf("\033[31merror 01 : failed  detecting instructions - \033[32m%s line %d \n\033[37m\033[49m",tabins->instruction[i].keyWord,i);
+                    return -1;
                     BREAK;
             }
         }

@@ -62,7 +62,7 @@ int findSequenceAdress(Sequences *sequence,TabularInstructions* tabins,int j)
 {
    for(int i = 0; i < sequence->size; i++)
        if(!strcmp(sequence->rupture[i],tabins->instruction[j].param))
-               return sequence->adress[i] - j;
+               return sequence->adress[i] - j - 1; 
    return -1;
 }
 
@@ -72,7 +72,7 @@ int argExtra(TabularInstructions *tabins,char* leftover,int i)
               tabins->instruction[i].arg = strtol(tabins->instruction[i].param,&leftover,10);
               if(!WhiteSpace(leftover))
               {
-                   err(1,"Wrong Adress line %d",i);
+                   printf("\033[31merror 02 : wrong argument  %s - \033[32m line %d \n\033[37m\033[49m",leftover,i+1);
                    return 0;
               }
        return 1;

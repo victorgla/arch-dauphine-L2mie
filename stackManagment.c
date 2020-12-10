@@ -33,9 +33,9 @@ int  opManagment(Stack *stack, TabularInstructions *tabins)
             if(stack->SP<1)
                 return -1;
             if(stack->pile[stack->SP] == stack->pile[stack->SP-1])
-                stack->pile[stack->SP-1] = 1;
-            stack->pile[stack->SP-1] = 0;
+                stack->pile[stack->SP] = 1;
             stack->SP--;
+            stack->pile[stack->SP] = 0;
             return 0;
             break;
         case 1:
@@ -43,17 +43,17 @@ int  opManagment(Stack *stack, TabularInstructions *tabins)
                 return -1;
             if(stack->pile[stack->SP] != stack->pile[stack->SP-1])
                 stack->pile[stack->SP-1] = 1;
-            stack->pile[stack->SP-1] = 0;
             stack->SP--;
+            stack->pile[stack->SP-1] = 0;
             return 0;
             break;
         case 2:
             if(stack->SP<1)
                 return -1;
+            stack->SP--;
             if(stack->pile[stack->SP] < stack->pile[stack->SP-1])
                 stack->pile[stack->SP-1] = 1;
             stack->pile[stack->SP-1] = 0;
-            stack->SP--;
             return 0;
             break;
         case 3:
@@ -61,66 +61,63 @@ int  opManagment(Stack *stack, TabularInstructions *tabins)
                 return -1;
             if(stack->pile[stack->SP] <= stack->pile[stack->SP-1])
                 stack->pile[stack->SP-1] = 1;
-            stack->pile[stack->SP-1] = 0;
             stack->SP--;
+            stack->pile[stack->SP-1] = 0;
             return 0;
         case 4:
             if(stack->SP<1)
                 return -1;
             if(stack->pile[stack->SP] > stack->pile[stack->SP-1])
                 stack->pile[stack->SP-1] = 1;
-            stack->pile[stack->SP-1] = 0;
             stack->SP--;
+            stack->pile[stack->SP-1] = 0;
             return 0;
         case 5:
             if(stack->SP<1)
                 return -1;
             if(stack->pile[stack->SP] >= stack->pile[stack->SP-1])
                 stack->pile[stack->SP-1] = 1;
-            stack->pile[stack->SP-1] = 0;
             stack->SP--;
+            stack->pile[stack->SP-1] = 0;
             return 0;
         case 6:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] & stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] & stack->pile[stack->SP];
             return 0;
         case 7:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] | stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] | stack->pile[stack->SP];
             return 0;
         case 8:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]^stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]^stack->pile[stack->SP];
             return 0;
         case 9:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] =~ stack->pile[stack->SP-1];
             stack->SP--;
+            stack->pile[stack->SP-1] =~ stack->pile[stack->SP-1];
             return 0;
         case 10:
-            if(stack->SP<1)
-                return -1;
-            stack->pile[stack->SP-1] = -2*stack->pile[stack->SP-1];
-            stack->SP--;
+            stack->pile[stack->SP-1] = -stack->pile[stack->SP-1];
             return 0;
          case 11:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] + stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] + stack->pile[stack->SP];
             return 0;
         case 12:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]-stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]-stack->pile[stack->SP];
             return 0;
         case 13:
             if(stack->SP<1)
@@ -131,14 +128,14 @@ int  opManagment(Stack *stack, TabularInstructions *tabins)
         case 14:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]/stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] /=stack->pile[stack->SP];
             return 0;
         case 15:
             if(stack->SP<1)
                 return -1;
-            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]%stack->pile[stack->SP];
             stack->SP--;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]%stack->pile[stack->SP];
     }
             return 0;
 }
@@ -151,15 +148,16 @@ int unstack(Stack *stack)
 
 int Exec(TabularInstructions* tabins, Stack* stack)
 {
-        while(stack->PC!=tabins->size)
+        while(stack->PC!=-1)
         {
+            //printf("SP : %d",stack->SP);
             SWITCH(tabins->instruction[stack->PC].keyWord)
             {
                 CASE("pop"):
                     if(!stack->SP)
                         return -1;
-                    stack->pile[tabins->instruction[stack->PC].arg] = stack->pile[stack->SP];
                     stack->SP--;
+                    stack->pile[tabins->instruction[stack->PC].arg] = stack->pile[stack->SP];
                     stack->PC++; 
                     BREAK;
                 CASE("push"):
@@ -167,6 +165,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                         return -1;
                     stack->pile[stack->SP]= stack->pile[tabins->instruction[stack->PC].arg] ;
                     stack->PC++; 
+                    stack->SP++;
                     BREAK;
                 CASE("iPop"):
                     if(stack->SP<2)
@@ -199,25 +198,25 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     stack->PC++; 
                     BREAK;
                 CASE("jmp"):
-                    if(stack->PC - tabins->instruction[stack->PC].arg<0)
+                    if(stack->PC + tabins->instruction[stack->PC].arg<0)
                         return -1;
                     stack->PC += tabins->instruction[stack->PC].arg;
                     BREAK;
                 CASE("jpc"):
-                    if(!stack->SP)
+                    stack->SP--;
+                    if(stack->SP == -1)
                         return -1;
-                    if(!stack->pile[stack->SP] && (stack->PC - tabins->instruction[stack->PC].arg)>=0)
-                        stack->PC -= tabins->instruction[stack->PC].arg;
+                    if(stack->pile[stack->SP] == 0 && (stack->PC + tabins->instruction[stack->PC].arg)>=0)
+                        stack->PC += tabins->instruction[stack->PC].arg;
                     else
                         stack->PC++; 
-                    stack->SP--;
                     BREAK;
                 CASE("write"):
                     printf("%d\n",stack->pile[tabins->instruction[stack->PC].arg]);
                     stack->PC++; 
                     BREAK;
                 CASE("read"):
-                    printf("Entrez une valeure \n-> ");
+                    printf("Entrez une valeure :\n-> ");
                     scanf("%d",&stack->pile[tabins->instruction[stack->PC].arg]);
                     stack->PC++; 
                     BREAK;
@@ -227,7 +226,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     stack->PC++; 
                     BREAK;
                 CASE("dup"):
-                    if(!stack->SP)
+                    if(stack->SP==4000)
                         return -1;
                     stack->pile[stack->SP] = stack->pile[stack->SP-1];
                     stack->SP++;
