@@ -22,6 +22,133 @@ Stack *initStack()
 }
 
 
+
+
+int  opManagment(Stack *stack, TabularInstructions *tabins)
+
+{
+    switch(tabins->instruction[stack->PC].arg)
+    {
+        case 0:
+            if(stack->SP<1)
+                return -1;
+            if(stack->pile[stack->SP] == stack->pile[stack->SP-1])
+                stack->pile[stack->SP-1] = 1;
+            stack->pile[stack->SP-1] = 0;
+            stack->SP--;
+            return 0;
+            break;
+        case 1:
+            if(stack->SP<1)
+                return -1;
+            if(stack->pile[stack->SP] != stack->pile[stack->SP-1])
+                stack->pile[stack->SP-1] = 1;
+            stack->pile[stack->SP-1] = 0;
+            stack->SP--;
+            return 0;
+            break;
+        case 2:
+            if(stack->SP<1)
+                return -1;
+            if(stack->pile[stack->SP] < stack->pile[stack->SP-1])
+                stack->pile[stack->SP-1] = 1;
+            stack->pile[stack->SP-1] = 0;
+            stack->SP--;
+            return 0;
+            break;
+        case 3:
+            if(stack->SP<1)
+                return -1;
+            if(stack->pile[stack->SP] <= stack->pile[stack->SP-1])
+                stack->pile[stack->SP-1] = 1;
+            stack->pile[stack->SP-1] = 0;
+            stack->SP--;
+            return 0;
+        case 4:
+            if(stack->SP<1)
+                return -1;
+            if(stack->pile[stack->SP] > stack->pile[stack->SP-1])
+                stack->pile[stack->SP-1] = 1;
+            stack->pile[stack->SP-1] = 0;
+            stack->SP--;
+            return 0;
+        case 5:
+            if(stack->SP<1)
+                return -1;
+            if(stack->pile[stack->SP] >= stack->pile[stack->SP-1])
+                stack->pile[stack->SP-1] = 1;
+            stack->pile[stack->SP-1] = 0;
+            stack->SP--;
+            return 0;
+        case 6:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] & stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 7:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] | stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 8:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]^stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 9:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] =~ stack->pile[stack->SP-1];
+            stack->SP--;
+            return 0;
+        case 10:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = -2*stack->pile[stack->SP-1];
+            stack->SP--;
+            return 0;
+         case 11:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1] + stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 12:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]-stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 13:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]*stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 14:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]/stack->pile[stack->SP];
+            stack->SP--;
+            return 0;
+        case 15:
+            if(stack->SP<1)
+                return -1;
+            stack->pile[stack->SP-1] = stack->pile[stack->SP-1]%stack->pile[stack->SP];
+            stack->SP--;
+    }
+            return 0;
+}
+
+
+int unstack(Stack *stack)
+{
+    return 0;
+}
+
 int Exec(TabularInstructions* tabins, Stack* stack)
 {
         while(stack->PC!=tabins->size)
@@ -68,7 +195,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     BREAK;
                 CASE("ret"):
                     printf("");
-                    //unstack(stack);
+                    unstack(stack);
                     stack->PC++; 
                     BREAK;
                 CASE("jmp"):
@@ -107,7 +234,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     stack->PC++; 
                     BREAK;
                 CASE("op"):
-                    printf("");
+                    opManagment(stack,tabins);
                     stack->PC++; 
                     BREAK;
                 CASE("halt"):
