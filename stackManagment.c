@@ -158,7 +158,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                 CASE("pop"):
                     if(!stack->SP)
                         return -1;
-                    stack->memory[tabins->instruction[stack->PC].arg] = stack->pile[stack->SP];
+                    stack->pile[tabins->instruction[stack->PC].arg] = stack->pile[stack->SP];
                     stack->SP--;
                     stack->PC++; 
                     BREAK;
@@ -166,7 +166,7 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     if(stack->SP==3999)
                         return -1;
                     stack->SP++;
-                    stack->pile[stack->SP]= stack->memory[tabins->instruction[stack->PC].arg] ;
+                    stack->pile[stack->SP]= stack->pile[tabins->instruction[stack->PC].arg] ;
                     stack->PC++; 
                     BREAK;
                 CASE("iPop"):
@@ -213,12 +213,12 @@ int Exec(TabularInstructions* tabins, Stack* stack)
                     stack->SP--;
                     BREAK;
                 CASE("write"):
-                    printf("%d\n",stack->memory[tabins->instruction[stack->PC].arg]);
+                    printf("%d\n",stack->pile[tabins->instruction[stack->PC].arg]);
                     stack->PC++; 
                     BREAK;
                 CASE("read"):
                     printf("Entrez une valeure \n-> ");
-                    scanf("%d",&stack->memory[tabins->instruction[stack->PC].arg]);
+                    scanf("%d",&stack->pile[tabins->instruction[stack->PC].arg]);
                     stack->PC++; 
                     BREAK;
                 CASE("rnd"):

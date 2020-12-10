@@ -9,7 +9,6 @@ typedef struct Stack{
     int pile[4000];
     int PC;
     int SP; //adress pointée
-    int memory[4000];
 }Stack;
 
 Stack *initStack();
